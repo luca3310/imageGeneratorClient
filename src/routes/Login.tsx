@@ -1,54 +1,70 @@
-import Parse from "parse/dist/parse.min.js";
 import { useNavigate } from "react-router-dom";
-import notify from "../lib/notify";
-import { ToastContainer } from "react-toastify";
-import { FormEvent } from "react";
+import { useState } from "react";
+import loginAccount from "../lib/loginAccount";
+
+interface Field {
+  name: string;
+  displayName: string;
+  error: string;
+  type: string;
+}
 
 export default function Login() {
+  const [usernameError, setUsernameError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+
   const navigate = useNavigate();
 
-  async function loginAccount(e: FormEvent) {
-    e.preventDefault();
-    const form = e.target as typeof e.target & {
-      username: { value: string };
-      password: { value: string };
-    };
-    try {
-      await Parse.User.logIn(form.username.value, form.password.value, {});
-      navigate("/");
-    } catch (error: any) {
-      notify(error.message);
-    }
-  }
+  const handleLoginAccount = (e: React.FormEvent<HTMLFormElement>) => {
+    loginAccount(e, setUsernameError, setPasswordError, navigate);
+  };
+
+  const formFields = [
+    {
+      name: "username",
+      displayName: "username/email",
+      error: usernameError,
+      type: "text",
+    },
+    {
+      name: "password",
+      displayName: "password",
+      error: passwordError,
+      type: "password",
+    },
+  ];
+
   return (
-    <main className="flex justify-center items-center h-[100vh]">
-      <ToastContainer />
+    <main className="flex justify-center items-center h-[100vh] bg-gray-100">
       <form
-        onSubmit={loginAccount}
-        className="flex justify-center items-center"
+        onSubmit={handleLoginAccount}
+        className="flex justify-center items-center w-1/3"
       >
-        <fieldset className="border-solid text-xl border-black border-2 flex flex-col justify-center items-center p-10 gap-7">
-          <legend className="text-2xl text-pink-600">Login</legend>
-          <div className="flex gap-4">
-            <input
-              id="username"
-              name="username"
-              type="text"
-              className="border-b-pink-200 border-b-solid border-b-2 outline-none focus:border-b-pink-600"
-            />
-            <label htmlFor="username">username</label>
-          </div>
-          <div className="flex gap-4">
-            <input
-              id="password"
-              name="password"
-              type="password"
-              className="border-b-pink-200 border-b-solid border-b-2 outline-none focus:border-b-pink-600"
-            />
-            <label htmlFor="password">password</label>
-          </div>
+        <fieldset className="border-solid text-xl border-black border-2 w-full flex flex-col p-10 gap-7">
+          <legend className="text-4xl text-blue-600">log in</legend>
+          {formFields.map((field: Field) => {
+            return (
+              <div className="flex flex-col gap-4" key={field.name}>
+                <label
+                  htmlFor={field.name}
+                  className={`text-2xl ${field.error === "" ? null : "text-red-500"}`}
+                >
+                  {field.displayName}
+                </label>
+                <input
+                  id={field.name}
+                  name={field.name}
+                  type={field.type}
+                  className={`p-2 rounded border-black border-solid border-2 outline-none focus:border-blue-500 ${field.error === "" ? null : "border-red-600"}`}
+                />
+                {field.error === "" ? null : (
+                  <p className="text-red-600 animate-shake">{field.error}</p>
+                )}
+              </div>
+            );
+          })}
           <button
-            className="px-7 py-1 border-pink-600 border-solid border-2 text-pink-600 hover:bg-pink-600 hover:text-white rounded transition duration-500"
+            className="w-1/2 py-3 border-blue-600 border-solid self-start text-3xl border-2 text-blue-600 hover:bg-blue-600 hover:text-white rounded transition duration-500"
             type="submit"
           >
             log in

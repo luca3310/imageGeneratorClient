@@ -3,6 +3,7 @@ import checkPassword from "../lib/registrePasswordCheck";
 import checkConfirmPassword from "../lib/registreConfirmPasswordCheck";
 import Parse from "parse/dist/parse.min.js";
 import { FormEvent } from "react";
+import notify from "./notify";
 
 export default async function registreAccount(
   e: FormEvent,
@@ -36,7 +37,15 @@ export default async function registreAccount(
       await createdUser.save();
       navigate("/");
     } catch (error: any) {
-      setUsernameError(error.code + ": " + error.message);
+      switch (error.code) {
+        case 202:
+          setUsernameError(error.message);
+          break;
+        default: {
+          notify(error.code + ": " + error.message);
+          console.error(error);
+        }
+      }
     }
   }
 }
