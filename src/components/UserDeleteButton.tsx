@@ -28,8 +28,8 @@ export default function UserDeleteButton({
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="text-red-600">
-        delete account
+      <AlertDialogTrigger className="text-sm hover:bg-white w-full text-start px-2 py-1 rounded">
+        Delete account
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

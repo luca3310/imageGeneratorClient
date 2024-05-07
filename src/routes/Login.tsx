@@ -47,7 +47,7 @@ export default function Login() {
               <div className="flex flex-col gap-4" key={field.name}>
                 <label
                   htmlFor={field.name}
-                  className={`text-2xl ${field.error === "" ? null : "text-red-500"}`}
+                  className={`text-2xl ${field.error && "text-red-500"}`}
                 >
                   {field.displayName}
                 </label>
@@ -55,9 +55,9 @@ export default function Login() {
                   id={field.name}
                   name={field.name}
                   type={field.type}
-                  className={`p-2 rounded border-black border-solid border-2 outline-none focus:border-blue-500 ${field.error === "" ? null : "border-red-600"}`}
+                  className={`p-2 rounded border-black border-solid border-2 outline-none focus:border-blue-500 ${field.error && "border-red-600"}`}
                 />
-                {field.error === "" ? null : (
+                {field.error && (
                   <p className="text-red-600 animate-shake">{field.error}</p>
                 )}
               </div>
@@ -69,6 +69,7 @@ export default function Login() {
           >
             log in
           </button>
+          <p>forgot password</p>
         </fieldset>
       </form>
     </main>

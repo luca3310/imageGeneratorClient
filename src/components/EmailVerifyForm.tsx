@@ -19,7 +19,7 @@ export default function EmailVerifyForm() {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="self-start">
+      <AlertDialogTrigger className="text-sm hover:bg-white w-full text-start px-2 py-1 rounded">
         email verify
       </AlertDialogTrigger>
       <AlertDialogContent>

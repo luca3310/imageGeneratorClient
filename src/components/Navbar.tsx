@@ -3,24 +3,32 @@ import { useEffect, useState } from "react";
 import { ToastContainer } from "react-toastify";
 import notifyInfo from "../lib/notifyInfo";
 import notify from "../lib/notify";
-export default function Navbar() {
+
+import UserDropdownMenu from "./UserDropdownMenu";
+
+interface NavbarProps {
+  navigate: any;
+}
+
+export default function Navbar({ navigate }: NavbarProps) {
   const [user, setUser] = useState<Parse.User | undefined>();
 
   const checkUserState = async function () {
-    try {
-      const currentUser: Parse.User | undefined = Parse.User.current();
-      if (!currentUser) {
-        setUser(currentUser);
-      } else {
+    const currentUser: Parse.User | undefined = Parse.User.current();
+    if (!currentUser) {
+      setUser(currentUser);
+    } else {
+      try {
         await currentUser.fetch();
         setUser(currentUser);
         const emailVerified = currentUser.get("emailVerified");
         if (!emailVerified) {
           notifyInfo("email not notified");
         }
+      } catch (error: any) {
+        notify(`Error: ${error.message}`);
+        console.error(error);
       }
-    } catch (error: any) {
-      notify(`Error: ${error.message}`);
     }
   };
 
@@ -40,7 +48,11 @@ export default function Navbar() {
                 <a href="/pricing">+ {user.get("tokens")}</a>
               </li>
               <li className="text-3xl hover:cursor-pointer hover:text-pink-700 transition duration-500">
-                <a href="/profile">{user.getUsername()}</a>
+                <UserDropdownMenu
+                  user={user}
+                  setUser={setUser}
+                  navigate={navigate}
+                />
               </li>
             </>
           ) : (

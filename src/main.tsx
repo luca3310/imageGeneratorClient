@@ -6,7 +6,6 @@ import Cancel from "./routes/Cancel.tsx";
 import Registre from "./routes/Registre.tsx";
 import Login from "./routes/Login.tsx";
 import Pricing from "./routes/Pricing.tsx";
-import UserProfile from "./routes/UserProfile.tsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import ErrorPage from "./error-page.tsx";
@@ -44,10 +43,6 @@ const router = createBrowserRouter([
   {
     path: "/pricing",
     element: <Pricing />,
-  },
-  {
-    path: "/profile",
-    element: <UserProfile />,
   },
 ]);
 

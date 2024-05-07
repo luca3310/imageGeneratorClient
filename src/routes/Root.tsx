@@ -3,6 +3,8 @@ import "../App.css";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
 
+import { useNavigate } from "react-router-dom";
+
 import StaleSvg from "../components/StaleSvg";
 import LoadingSvg from "../components/LoadingSvg";
 import ActiveImg from "../components/ActiveImg";
@@ -11,6 +13,8 @@ import EditImg from "../components/EditImg";
 import SmallImgActive from "../components/SmallImageActive";
 
 export default function Root() {
+  const navigate = useNavigate();
+
   const [imageUrls, setImageUrls] = useState<string[]>(["", "", "", ""]);
   const [activeImg, setActiveImg] = useState<string>("");
   const [imageState, setImageState] = useState<"stale" | "loading" | "active">(
@@ -52,7 +56,7 @@ export default function Root() {
 
   return (
     <div className="h-[100vh] bg-gradient-to-tr from-indigo-500 via-purple-500 to-pink-500">
-      <Navbar />
+      <Navbar navigate={navigate} />
       <main className="flex justify-center gap-20 mt-5">
         <div className="flex flex-col gap-4 bg-slate-700 p-5 rounded w-1/4 bg-opacity-10 border-solid border-black border-2">
           <h1 className="text-3xl text-pink-700">Image Generator</h1>
