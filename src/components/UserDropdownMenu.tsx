@@ -1,6 +1,7 @@
 import logoutAccount from "@/lib/logoutAccount";
 import UserDeleteButton from "./UserDeleteButton";
-import EmailVerifyForm from "./EmailVerifyForm";
+import notifyInfo from "@/lib/notifyInfo";
+import InputPopup from "./InputPopup";
 
 import {
   DropdownMenu,
@@ -24,6 +25,14 @@ export default function UserDropdownMenu({
 }: UserDropdownMenuProps) {
   const navigatePricing = () => {
     navigate("/pricing");
+  };
+
+  const cancelFunction = () => {
+    notifyInfo("email verify cancel");
+  };
+
+  const continueFunction = (email: string) => {
+    notifyInfo(email);
   };
 
   return (
@@ -58,7 +67,13 @@ export default function UserDropdownMenu({
           Logout
         </DropdownMenuItem>
         <UserDeleteButton user={user} navigate={navigate} />
-        <EmailVerifyForm />
+        <InputPopup
+          name="verify email"
+          description="verify your email"
+          cancelFunction={cancelFunction}
+          continueFunction={continueFunction}
+          buttonStyling="text-sm hover:bg-white w-full text-start px-2 py-1 rounded"
+        />
       </DropdownMenuContent>
     </DropdownMenu>
   );

@@ -1,6 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import loginAccount from "../lib/loginAccount";
+import { Link } from "react-router-dom";
+import InputPopup from "@/components/InputPopup";
+import notifyInfo from "@/lib/notifyInfo";
+import { ToastContainer } from "react-toastify";
 
 interface Field {
   name: string;
@@ -34,8 +38,17 @@ export default function Login() {
     },
   ];
 
+  const cancelFunction = () => {
+    notifyInfo("email verify cancel");
+  };
+
+  const continueFunction = (email: string) => {
+    notifyInfo(email);
+  };
+
   return (
     <main className="flex justify-center items-center h-[100vh] bg-gray-100">
+      <ToastContainer />
       <form
         onSubmit={handleLoginAccount}
         className="flex justify-center items-center w-1/3"
@@ -69,7 +82,21 @@ export default function Login() {
           >
             log in
           </button>
-          <p>forgot password</p>
+          <div className="flex justify-between">
+            <InputPopup
+              name="forgot password"
+              description="type your email"
+              cancelFunction={cancelFunction}
+              continueFunction={continueFunction}
+              buttonStyling="text-gray-500 hover:text-black underline transition duration-500"
+            />
+            <Link
+              className="text-gray-500 hover:text-black underline transition duration-500"
+              to="/registre"
+            >
+              dont have an account?
+            </Link>
+          </div>
         </fieldset>
       </form>
     </main>

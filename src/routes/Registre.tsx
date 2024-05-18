@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import registreAccount from "../lib/registreAccount";
+import { Link } from "react-router-dom";
 
 interface Field {
   name: string;
@@ -88,6 +89,12 @@ export default function Registre() {
           >
             sign up
           </button>
+          <Link
+            className="text-gray-500 hover:text-black transition duration-500 underline"
+            to="/login"
+          >
+            already an account?
+          </Link>
         </fieldset>
       </form>
     </main>
